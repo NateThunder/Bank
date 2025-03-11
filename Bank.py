@@ -32,8 +32,8 @@ def main():
                 os.system("cls")
             if pin == inpin and name ==inname:
                 print(f"Welcome to your Dope A F account {name.capitalize()}")
-                first=input("Would you like to do. Enter C for check balance, D to deposit, W to withdraw and H for transaction history, ")
-                if first == "A":
+                first=input("Would you like to do. Enter C for check balance, D to deposit, W to withdraw and H for transaction history, ").capitalize()
+                if first == "C":
                     account()
                 break  
             
@@ -48,7 +48,22 @@ def main():
     
 
 def account():
+   
     print("welcome to your account you have £100")
+    blank = open("Transactions.txt","r", encoding="utf-8").read()
+    
+    #transactions
+    print(blank)
+    option = input("Type W if you want to withdraw money or type D to deposite money").lower() #withdraw or deposit
+    
+    ################withdrawal#################################################
+    if option == "w":
+        figure = float(input("how much would you like to withdraw?"))
+        
+
+
+
+
     
 main()
 
