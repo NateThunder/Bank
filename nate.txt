@@ -2,3 +2,5 @@ Overdraft = X
 Total = Y
 Transactions = Z
 
+name = nate
+password = 1234
