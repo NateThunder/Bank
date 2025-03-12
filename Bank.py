@@ -18,7 +18,9 @@ def main():
             inname = input("What is your user name ")
             inpin = int(input("What is your pin "))
             os.system("cls")
+            customer_file(inname, inpin)
             start="Y"
+
     # login       
         n =3
         while n >0:
@@ -46,7 +48,7 @@ def main():
 
         break
     
-
+#-------------------Bank acount information -------------------------------------------------
 def account(name):
    
     print("welcome to your account you have £100")
@@ -59,8 +61,12 @@ def account(name):
     ################withdrawal#################################################
     if option == "w":
         figure = float(input("how much would you like to withdraw?"))
-def customer_file(name, pin):
-    print("hi")
+
+#-------------------Text file created for new customer---------------------------------------------
+def customer_file(inname, inpin):
+    file_name= f"{inname}.txt"
+    open(file_name, "w", encoding="utf-8").write(f"Name = {inname}\nPin = {inpin}\nOverdraft = X\nTotal = Y\nTransactions = Z")
+    
          
 main()
 
