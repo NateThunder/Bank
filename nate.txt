@@ -1,6 +1,5 @@
+Name = nate
+Pin = 1234
 Overdraft = X
 Total = Y
 Transactions = Z
-
-name = nate
-password = 1234
