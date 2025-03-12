@@ -16,11 +16,25 @@ def main():
         if start == "N":
             print("A new customer Great. You will not regret joining Dope A F.\n")
             inname = input("What is your user name ")
-            inpin = int(input("What is your pin "))
+            
+#--------------- Making sure it is a 4 digit pin --------------------------------------------------           
+            while True:
+                try:
+                    inpin = int(input("What is your pin "))
+                    if len(str(inpin)) == 4: #Change the number to to change length of pin
+                        break
+                    else:
+                        print("Your pin has to be 4 numbers. It can not have letters. No more and no less")
+
+                except: # in case the input is not an int
+                    print("Your pin has to be 4 numbers. It can not have letters. No more and no less")
+                    continue
+#------------------- Write information to a text file ------------------------------------------------------
             os.system("cls")
             customer_file(inname, inpin)
-            start="Y"
 
+            start="Y" # Now user has account
+            
 #-------------------------------------- login -----------------------------------------------------------------
         n =3
         while n >0:
@@ -53,9 +67,6 @@ def main():
             else:
                 n-=1  # Atempts
                 print(f"wrong credential {n} more atempts left.")
-               
-#------------------- Write information to a text file ------------------------------------------------------
-        customer_file(name, pin)
 
         break
     
