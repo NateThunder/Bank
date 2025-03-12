@@ -34,23 +34,23 @@ def main():
                 print(f"Welcome to your Dope A F account {name.capitalize()}")
                 first=input("Would you like to do. Enter C for check balance, D to deposit, W to withdraw and H for transaction history, ").capitalize()
                 if first == "C":
-                    account()
+                    account(name)
                 break  
             
             else:
                 n-=1
                 print(f"wrong credential {n} more atempts left.")
-            
+               
+        ######write information to a text file####
+        customer_file(name, pin)
 
-        
-        
         break
     
 
-def account():
+def account(name):
    
     print("welcome to your account you have £100")
-    blank = open("Transactions.txt","r", encoding="utf-8").read()
+    blank = open(f"{name}.txt","r", encoding="utf-8").read()
     
     #transactions
     print(blank)
@@ -59,12 +59,9 @@ def account():
     ################withdrawal#################################################
     if option == "w":
         figure = float(input("how much would you like to withdraw?"))
-        
-
-
-
-
-    
+def customer_file(name, pin):
+    print("hi")
+         
 main()
 
 ####################################################################
