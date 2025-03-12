@@ -1,0 +1,5 @@
+Name = nate
+Pin = 1234
+Overdraft = X
+Total = Y
+Transactions = Z

@@ -26,15 +26,21 @@ def main():
         while n >0:
             
             if start == "Y":
+
                 try: # Does the account excist
                     while n == 3:
                         print("OK lets Log into your Dope A F bank account \n")
                         break
                     name = input("Please enter your user name ")
                     pin = int(input("Please enter your pin "))
+#------------------- Getting user information in files ---------------------------------------------                    
+                    fpin = open(f"{name}.txt", "r", encoding="utf-8").read().split()
+                    print(f"Password = {fpin[5]}\nName = {fpin[2]}")
+                    record_name = fpin[2]
+                    record_pin = int(fpin[5])
                     os.system("cls")
-#------------------ Change to read files -----------------------------------------------------------------
-                    if pin == inpin and name ==inname:
+#------------------ comparing user information with input -----------------------------------------------------------------
+                    if name == record_name and pin == record_pin:
                         print(f"Welcome to your Dope A F account {name.capitalize()}")
                         first=input("Would you like to do. Enter C for check balance, D to deposit, W to withdraw and H for transaction history, ").capitalize()
                         if first == "C":
@@ -75,4 +81,4 @@ def customer_file(inname, inpin):
          
 main()
 
-####################################################################
+####################################################################fv
