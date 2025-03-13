@@ -4,9 +4,6 @@ print("Welcome to Dope A F bank. The home of your banking needs ")
 
 #------------------------------ Log into your bank --------------------------------------------------------
 
-
-
-
 #-------------------------- Do you have an account? -------------------------------------------------------
 def main():
     start = input("Do you have an account. Please type Y for yes and N for No. ").capitalize().strip()
@@ -47,6 +44,7 @@ def main():
                         break
                     name = input("Please enter your user name ")
                     pin = int(input("Please enter your pin "))
+
 #------------------- Getting user information in files ---------------------------------------------                    
                     fpin = open(f"{name}.txt", "r", encoding="utf-8").read().split()
                     print(f"Password = {fpin[5]}\nName = {fpin[2]}")
@@ -54,11 +52,10 @@ def main():
                     record_pin = int(fpin[5])
                     os.system("cls")
 #------------------ comparing user information with input -----------------------------------------------------------------
+
                     if name == record_name and pin == record_pin:
                         print(f"Welcome to your Dope A F account {name.capitalize()}")
-                        first=input("Would you like to do. Enter C for check balance, D to deposit, W to withdraw and H for transaction history, ").capitalize()
-                        if first == "C":
-                            account(name)
+                        account(name)
                         break  
                 except: # Start again
                     print("The account is not recognised. Try registering for an account")
@@ -70,26 +67,32 @@ def main():
 
         break
     
-#------------------- Bank acount information -------------------------------------------------
-def account(name):
-   
-    print("welcome to your account you have £100")
-    blank = open(f"{name}.txt","r", encoding="utf-8").read()
+#------------------- Bank acount information -------------------------------------------------------------
+def account(name, first):
+    #os.system("cls")
+    blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
+    print(f"You have £{blank[11]} in your account")
     
     #transactions
-    print(blank)
+    #print(blank)
     option = input("Type W if you want to withdraw money or type D to deposite money").lower() #withdraw or deposit
-    
-#---------------------------- Withdrawal ----------------------------------------------------------
+#---------------------------- Withdrawal ----------------------------------------------------------    
     if option == "w":
-        figure = float(input("how much would you like to withdraw?"))
+        name="nate"
+        blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
+        withdrawal  = int(input("How much money would you like to take?: "))
+        amount= int(blank[11])-withdrawal
+        blank[11] = str(amount)
+        print(amount)
+        update = " ".join(blank)
+        open(f"{name}.txt","w", encoding="utf-8").write(update)
+        print(f"You withdrew {withdrawal} and you now have £{amount} in your account")
 
-#------------------- Text file created for new customer ---------------------------------------------
+
+#------------------- Text file created for new customer -------------------------------------------------
 def customer_file(inname, inpin):
     file_name= f"{inname}.txt"
     open(file_name, "w", encoding="utf-8").write(f"Name = {inname}\nPin = {inpin}\nOverdraft = X\nTotal = Y\nTransactions = Z")
     
          
 main()
-
-####################################################################fv
