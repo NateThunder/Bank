@@ -68,25 +68,31 @@ def main():
         break
     
 #------------------- Bank acount information -------------------------------------------------------------
-def account(name, first):
+def account(name):
     #os.system("cls")
     blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
     print(f"You have £{blank[11]} in your account")
     
     #transactions
     #print(blank)
-    option = input("Type W if you want to withdraw money or type D to deposite money").lower() #withdraw or deposit
+    option = input("Type W if you want to withdraw money or type D to deposite money?: ").lower() #withdraw or deposit
 #---------------------------- Withdrawal ----------------------------------------------------------    
     if option == "w":
-        name="nate"
-        blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
         withdrawal  = int(input("How much money would you like to take?: "))
         amount= int(blank[11])-withdrawal
         blank[11] = str(amount)
-        print(amount)
         update = " ".join(blank)
         open(f"{name}.txt","w", encoding="utf-8").write(update)
         print(f"You withdrew {withdrawal} and you now have £{amount} in your account")
+#--------------------- Deposit -----------------------------------------------------------------------
+    elif option == "d":
+        deposit  = int(input("How much money would you like to deposit?: "))
+        amount= int(blank[11])+deposit
+        blank[11] = str(amount)
+        update = " ".join(blank)
+        open(f"{name}.txt","w", encoding="utf-8").write(update)
+        print(f"You deposited {deposit} and you now have £{amount} in your account")
+
 
 
 #------------------- Text file created for new customer -------------------------------------------------
