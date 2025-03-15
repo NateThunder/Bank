@@ -7,7 +7,7 @@ print("Welcome to Dope A F bank. The home of your banking needs ")
 #-------------------------- Do you have an account? -----------------------------------------------------------------------
 def main():
     os.system("cls")
-    start = input("Do you have an account. Please type Y for yes and N for No. ").capitalize().strip()
+    start = input("Do you have an account. Please type Y for Yes and N for No. ").capitalize().strip()
     os.system("cls")
     while True:
         # Register
@@ -31,21 +31,17 @@ def main():
             os.system("cls")
             customer_file(inname, inpin)
 
-            start="Y" # Now user has account
-            
+            start="Y" # Now user has account           
 #-------------------------------------- login ----------------------------------------------------------------------------
         n =3
-        while n >0:
-            
+        while n >0:            
             if start == "Y":
-
-                try: # Does the account excist
+                try: 
                     while n == 3:
                         print("OK lets Log into your Dope A F bank account \n")
                         break
                     name = input("Please enter your user name ")
                     pin = int(input("Please enter your pin "))
-
 #------------------- Getting user information in files -------------------------------------------------------------------                    
                     fpin = open(f"{name}.txt", "r", encoding="utf-8").read().split()
                     print(f"Password = {fpin[5]}\nName = {fpin[2]}")
@@ -64,16 +60,15 @@ def main():
             
             else:
                 n-=1  # Atempts
-                print(f"wrong credential {n} more atempts left.")
+                print(f"wrong credential {n} more attempts left.")
 
         break
-    
 #------------------- Bank acount information -------------------------------------------------------------------------------
 def account(name):
     blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
     print(f"You have £{blank[11]} in your account")
     while True:
-        option = input("Type W if you want to withdraw money or type D to deposite money?: ").lower() #withdraw or deposit
+        option = input("Type W if you want to withdraw money or type D to deposit money?: ").lower() #withdraw or deposit
 #---------------------------- Withdrawal ----------------------------------------------------------    
         if option == "w":
             withdrawal  = int(input("How much money would you like to take?: "))
@@ -82,7 +77,7 @@ def account(name):
             update = " ".join(blank)
             open(f"{name}.txt","w", encoding="utf-8").write(update)
             print(f"You withdrew {withdrawal} and you now have £{amount} in your account")
-    #--------------------- Deposit -----------------------------------------------------------------------
+#--------------------- Deposit -----------------------------------------------------------------------
         elif option == "d":
             deposit  = int(input("How much money would you like to deposit?: "))
             amount= int(blank[11])+deposit
@@ -91,7 +86,7 @@ def account(name):
             open(f"{name}.txt","w", encoding="utf-8").write(update)
             print(f"You deposited {deposit} and you now have £{amount} in your account")
 
-        done  = input("Would you like anyhting else. Y for Yes and N for No: ").upper()
+        done  = input("Would you like anything else. Y for Yes and N for No: ").upper()
         if done == "N":
             print("Thank you for using Dope A F. Goodbye 👋🏾 ")
             main()
@@ -100,6 +95,6 @@ def account(name):
 #------------------- Text file created for new customer -------------------------------------------------
 def customer_file(inname, inpin):
     file_name= f"{inname}.txt"
-    open(file_name, "w", encoding="utf-8").write(f"Name = {inname} Pin = {inpin} Overdraft = X Total = Y Transactions = Z")
+    open(file_name, "w", encoding="utf-8").write(f"Name = {inname} Pin = {inpin} Overdraft = 0 Total = 0 Transactions = 0")
 
 main()
