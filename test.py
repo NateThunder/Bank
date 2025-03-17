@@ -1,18 +1,11 @@
 import os
 import time
-0.04
-
-
-
-def animation():
-    x=0
-    for _ in range(3):
-        for _ in range(25):
-            animation = open(f"frame{x}.txt","r", encoding="utf-8").read()
-            x=x+1
-            print(animation)
-            time.sleep(0.04)
-            os.system("cls")
-        x=0
-
-animation()
+name = "nate"
+blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
+overdraft = input("What would you like your overdraft to be?: £")
+blank[8]=str(overdraft)
+update = " ".join(blank)
+open(f"{name}.txt","w", encoding="utf-8").write(update)
+os.system("cls")
+print(f"Your overdraft is now {blank[8]}, that's Dope A F. Remember it is not free money. Enjoy!")
+print(blank)

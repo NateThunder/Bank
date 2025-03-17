@@ -1,19 +1,11 @@
 import os
 import time
-#------------------------------ Log into your bank ------------------------------------------------------------------------
+#------------------------------ Bank app ------------------------------------------------------------------------
 def main():
     os.system("cls")
 #-------------------------------- Welcome message -------------------------------------------------------------------------
-    print(""
-    "\n░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓████████▓▒░       ░▒▓██████▓▒░       ░▒▓████████▓▒░      ░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░"
-    "\n░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-    "\n░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-    "\n░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓██████▓▒░        ░▒▓████████▓▒░      ░▒▓██████▓▒░        ░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░  "
-    "\n░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-    "\n░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-    "\n░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░      ░▒▓████████▓▒░      ░▒▓█▓▒░░▒▓█▓▒░      ░▒▓█▓▒░             ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
-                                                                                                                                                                                                                                                                                                               
-    "\n\nWelcome to Dope A F bank. The home of your banking needs \n")
+    print(f"{open(f"Bank_logo.txt","r", encoding="utf-8").read()}" # Print company logo ASCII art                                                                                                                                                                                                                                                                                                             
+    "\nWelcome to Dope A F bank. The home of your banking needs \n")
 #-------------------------- Do you have an account? -----------------------------------------------------------------------
     start = input("Do you have an account. Please type Y for Yes and N for No. ").capitalize().strip()
     os.system("cls")
@@ -46,6 +38,7 @@ def main():
 
             start="Y" # Now user has account           
 #-------------------------------------- login ----------------------------------------------------------------------------
+#----------------------------------- making sure its 4 attempts -----------------------------------------------------------        
         n =3 # Initialising attempts
         while n >0:            
             if start == "Y":
@@ -69,58 +62,68 @@ def main():
                         break  
                 except: # Start again
                     print("The account is not recognised. Try registering for an account")
-                    main()
-            
+                    main()            
             else:
                 n-=1  # Atempts
-                print(f"wrong credential {n} more attempts left.")
-        
-
+                print(f"wrong credential {n} more attempts left.")       
         break
 #------------------- Bank acount information -------------------------------------------------------------------------------
 def account(name):
     blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
-    print(f"You have £{blank[11]} in your account")
+    
     while True:
-        option = input("Type W if you want to withdraw money or type D to deposit money?: ").lower() #withdraw or deposit
+        print(f"You have £{blank[11]} in your account\n"
+              f"Your overdraft is £{blank[8]}")
+        option = input("Type W if you want to withdraw money, type D to deposit money or type O to change your overdraft: ").lower() #withdraw or deposit
 #---------------------------- Withdrawal ----------------------------------------------------------    
         if option == "w":
+            withdrawal  = float(input("How much money would you like to take?: £"))
             os.system("cls")
-            withdrawal  = int(input("How much money would you like to take?: "))
-            os.system("cls")
-            amount= int(blank[11])-withdrawal
-            blank[11] = str(amount)
-            update = " ".join(blank)
-            open(f"{name}.txt","w", encoding="utf-8").write(update)
-            print(f"You withdrew {withdrawal} and you now have £{amount} in your account")
-#--------------------- Deposit -----------------------------------------------------------------------------------
+#--------------------- Is there enough money in the account ----------------------------------------------
+            if float(withdrawal)> float(blank[11])+float(blank[8]) :
+                print(f"You onle have £{blank[11]} in your accout and your overdraft is £{blank[8]}, you can not withdraw {withdrawal}!\n"
+                      f"You can withdraw {float(blank[11])+float(blank[8])} or less")
+                continue
+#--------------------- There is enough in your account --------------------------------------------------
+            else:
+                amount= float(blank[11])-withdrawal
+                blank[11] = str(amount)
+                update = " ".join(blank)
+                open(f"{name}.txt","w", encoding="utf-8").write(update)
+                print(f"You withdrew {withdrawal} and you now have £{amount} in your account")
+
+#---------------------------------- Deposit --------------------------------------------------------------------
         elif option == "d":
-            os.system("cls")
-            deposit  = int(input("How much money would you like to deposit?: "))
+          #  os.system("cls")
+            deposit  = float(input("How much money would you like to deposit?: £"))
             os.system("cls")
             amount= int(blank[11])+deposit
             blank[11] = str(amount)
             update = " ".join(blank)
             open(f"{name}.txt","w", encoding="utf-8").write(update)
             print(f"You deposited {deposit} and you now have £{amount} in your account")
+
+#-------------------------- Overdraft ---------------------------------------------------------------------------
+        if option == "o":
+            overdraft = input("What would you like your overdraft to be?: £")
+            blank[8]=str(overdraft)
+            update = " ".join(blank)
+            open(f"{name}.txt","w", encoding="utf-8").write(update)
+            os.system("cls")
+            print(f"Your overdraft is now {blank[8]}, that's Dope A F. Remember it is not free money. Enjoy!")
+
 #---------------------------- Ending the system ----------------------------------------------------------------
         done  = input("Would you like anything else. Y for Yes and N for No: ").upper()
         if done == "N":
             os.system("cls")
-            print(""
-            "\n██████╗░██╗░░░██╗███████╗"
-            "\n██╔══██╗╚██╗░██╔╝██╔════╝"
-            "\n██████╦╝░╚████╔╝░█████╗░░"
-            "\n██╔══██╗░░╚██╔╝░░██╔══╝░░"
-            "\n██████╦╝░░░██║░░░███████╗"
-            "\n╚═════╝░░░░╚═╝░░░╚══════╝"
+            print(f"{open("bye.txt","r", encoding="utf-8").read()}" # Print Bye ASCII art from file
             "\nThank you for using Dope A F. Goodbye!")
             time.sleep(2)
             os.system("cls")
-            animation(10)
-            os.system("cls")
-            break
-
+            animation(1)
+            print(f"{open("piggybank.txt", "r", encoding="utf-8").read()}")
+            time.sleep(2)
+            main()
 
 #------------------- Text file created for new customer ----------------------------------------------------------
 def customer_file(inname, inpin):
@@ -139,5 +142,5 @@ def animation(length):
             print(animation)
             time.sleep(0.04)
             os.system("cls")
-
+        x=0
 main()
