@@ -4,7 +4,7 @@ import time
 def main():
     os.system("cls")
 #-------------------------------- Welcome message -------------------------------------------------------------------------
-    print(f"{open(f"Bank_logo.txt","r", encoding="utf-8").read()}" # Print company logo ASCII art                                                                                                                                                                                                                                                                                                             
+    print(f"{open(f"pound_logo.txt","r", encoding="utf-8").read()}" # Print company logo ASCII art                                                                                                                                                                                                                                                                                                             
     "\nWelcome to Dope A F bank. The home of your banking needs \n")
 #-------------------------- Do you have an account? -----------------------------------------------------------------------
     start = input("Do you have an account. Please type Y for Yes and N for No. ").capitalize().strip()
@@ -18,7 +18,7 @@ def main():
         # Register
         if start == "N":
             print("A new customer Great. You will not regret joining Dope A F.\n")
-            inname = input("What is your user name ")
+            inname = input("What is your user name ").lower()
             
 #--------------- Making sure it is a 4 digit pin -------------------------------------------------------------------------           
             while True:
@@ -38,7 +38,7 @@ def main():
 
             start="Y" # Now user has account           
 #-------------------------------------- login ----------------------------------------------------------------------------
-#----------------------------------- making sure its 4 attempts -----------------------------------------------------------        
+#----------------------------------- making sure its 3 attempts -----------------------------------------------------------        
         n =3 # Initialising attempts
         while n >0:            
             if start == "Y":
@@ -72,45 +72,69 @@ def account(name):
     blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
     
     while True:
-        print(f"You have £{blank[11]} in your account\n"
-              f"Your overdraft is £{blank[8]}")
+        print(f"You have £{float(blank[11]):.2f} in your account\n"
+              f"Your overdraft is £{float(blank[8]):.2f}")
         option = input("Type W if you want to withdraw money, type D to deposit money or type O to change your overdraft: ").lower() #withdraw or deposit
-#---------------------------- Withdrawal ----------------------------------------------------------    
+#---------------------------- Withdrawal ---------------------------------------------------------------------------------------    
         if option == "w":
-            withdrawal  = float(input("How much money would you like to take?: £"))
-            os.system("cls")
-#--------------------- Is there enough money in the account ----------------------------------------------
+#------------------------------------------- Checking input has max 2 decimal places -------------------------------------------------------------           
+            while True:
+                withdrawal  = float(input("How much money would you like to take?: £"))
+                figure = str(withdrawal).split(".")
+    
+                if len(figure[1]) <= 2:
+                    break
+                else:
+                    print("Your amount can not have more than 2 decimal places e.g £55.55")
+                    time.sleep(2)
+                    os.system("cls")
+
+#--------------------------------------------- Is there enough money in the account -----------------------------------------------
             if float(withdrawal)> float(blank[11])+float(blank[8]) :
-                print(f"You onle have £{blank[11]} in your accout and your overdraft is £{blank[8]}, you can not withdraw {withdrawal}!\n"
-                      f"You can withdraw {float(blank[11])+float(blank[8])} or less")
+                form = round(float(blank[11])+float(blank[8]),2)
+                available = f"{form:.2f}"
+                print(f"You onle have £{float(blank[11]):.2f} in your accout and your overdraft is £{float(blank[8]):.2f}, you can not withdraw {withdrawal}!\n"
+                      f"You can withdraw £{float(available):2f} or less")
                 continue
-#--------------------- There is enough in your account --------------------------------------------------
+
+#----------------------------------------------- There is enough in your account --------------------------------------------------
             else:
                 amount= float(blank[11])-withdrawal
                 blank[11] = str(amount)
                 update = " ".join(blank)
                 open(f"{name}.txt","w", encoding="utf-8").write(update)
-                print(f"You withdrew {withdrawal} and you now have £{amount} in your account")
+                print(f"You withdrew {float(withdrawal):.2f} and you now have £{float(amount):.2f} in your account")
 
 #---------------------------------- Deposit --------------------------------------------------------------------
         elif option == "d":
           #  os.system("cls")
-            deposit  = float(input("How much money would you like to deposit?: £"))
+#---------------------------------------------- Checking amount has 2 decimal places --------------------------
+            while True:
+                deposit  = float(input("How much money would you like to deposit?: £"))
+                figure = str(deposit).split(".")
+    
+                if len(figure[1]) <= 2:
+                    break
+                else:
+                    print("Your amount can not have more than 2 decimal places e.g £55.55")
+                    time.sleep(2)
+                    os.system("cls")
+#--------------------------- Adding amount to account --------------------------------------
             os.system("cls")
             amount= int(blank[11])+deposit
             blank[11] = str(amount)
             update = " ".join(blank)
             open(f"{name}.txt","w", encoding="utf-8").write(update)
-            print(f"You deposited {deposit} and you now have £{amount} in your account")
+            print(f"You deposited £{float(deposit):.2f} and you now have £{float(amount):.2f} in your account")
 
 #-------------------------- Overdraft ---------------------------------------------------------------------------
-        if option == "o":
+        elif option == "o":
             overdraft = input("What would you like your overdraft to be?: £")
             blank[8]=str(overdraft)
             update = " ".join(blank)
             open(f"{name}.txt","w", encoding="utf-8").write(update)
             os.system("cls")
-            print(f"Your overdraft is now {blank[8]}, that's Dope A F. Remember it is not free money. Enjoy!")
+            print(f"Your overdraft is now {float(blank[8]):.2f}, that's Dope A F. Remember it is not free money. Enjoy!")
 
 #---------------------------- Ending the system ----------------------------------------------------------------
         done  = input("Would you like anything else. Y for Yes and N for No: ").upper()
@@ -121,7 +145,7 @@ def account(name):
             time.sleep(2)
             os.system("cls")
             animation(1)
-            print(f"{open("piggybank.txt", "r", encoding="utf-8").read()}")
+            print(f"{open("piggybank.txt", "r", encoding="utf-8").read()}") # Print piggybank ASCII art from file
             time.sleep(2)
             main()
 
@@ -132,7 +156,6 @@ def customer_file(inname, inpin):
     open(file_name, "w", encoding="utf-8").write(f"Name = {inname} Pin = {inpin} Overdraft = 0 Total = 0 Transactions = 0")
 
 #------------------------------- Stickman Animation -------------------------------------------------------
-
 def animation(length):
     x=0
     for _ in range(length):
@@ -143,4 +166,9 @@ def animation(length):
             time.sleep(0.04)
             os.system("cls")
         x=0
+#----------------------------- Transaction history ---------------------------------------------------- 
+def transactions(name):
+    print("History[+2345, -1234,]")
+  
+
 main()
