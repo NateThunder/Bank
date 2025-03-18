@@ -15,7 +15,7 @@ def main():
         time.sleep(1)
         main()
     while True:
-        # Register
+#------------------------------ Register ---------------------------------------------------------
         if start == "N":
             print("A new customer Great. You will not regret joining Dope A F.\n")
             inname = input("What is your user name ").lower()
@@ -42,15 +42,48 @@ def main():
         n =3 # Initialising attempts
         while n >0:            
             if start == "Y":
+                print("OK lets Log into your Dope A F bank account \n")
                 try: 
                     while n == 3:
-                        print("OK lets Log into your Dope A F bank account \n")
                         break
                     name = input("Please enter your user name ").lower()
-                    pin = int(input("Please enter your pin "))
-#------------------- Getting user information in files -------------------------------------------------------------------                    
+#------------------- Getting user information from files -------------------------------------------------------------------  
                     fpin = open(f"{name}.txt", "r", encoding="utf-8").read().split()
-                    print(f"Password = {fpin[5]}\nName = {fpin[2]}")
+                    if fpin[5]=="xxxx":
+                        print("You need to reset your account")
+                        reset = input("Would you like to reset your account? Y for Yes, N for No: ").lower()
+#=========================== make into function ==============================================================
+#--------------------------------------- Reset the account --------------------------------------------------------
+                        if reset == "y":
+                            while True:
+                                try:
+                                    inpin = int(input("What is your pin "))
+                                    if len(str(inpin)) == 4: #Change the number to to change length of pin
+                                        fpin[5]=str(inpin)
+                                        update = " ".join(fpin)
+                                        print(update)
+                                        open(f"{name}.txt", "w", encoding="utf-8").write(update)
+                                        print("Awsome, now you pin is changed")
+                                        time.sleep(2)
+
+                                        main()
+                                    else:
+                                        print("Your pin has to be 4 numbers. It can not have letters. No more and no less")
+
+                                except: # in case the input is not an int
+                                    print("Your pin has to be 4 numbers. It can not have letters. No more and no less")
+                                    continue
+                        elif reset == "n":
+                            print("OK No problem. We are here is you need!")
+                            time.sleep(2)
+                            main()
+                            
+                        else:
+                            print("You have to enter the letter Y or N.")
+                            time.sleep(2)
+                            os.system("cls")
+                            continue
+                    pin = int(input("Please enter your pin "))
                     record_name = fpin[2]
                     record_pin = int(fpin[5])
                     os.system("cls")
@@ -59,48 +92,60 @@ def main():
                     if name == record_name and pin == record_pin:
                         print(f"Welcome to your Dope A F account {name.capitalize()}")
                         account(name)
-                        break  
+                        break
+                    else:
+                        n-=1  # Atempts
+                        print(f"wrong credential {n} more attempts left.")  
                 except: # Start again
                     print("The account is not recognised. Try registering for an account")
-                    main()            
-            else:
-                n-=1  # Atempts
-                print(f"wrong credential {n} more attempts left.")       
+                    main()
+                if n ==0:
+                    print("You are now locked out of your account, please contact your admin.") # User locked out of account
+                    fpin[5]="xxxx"
+                    update = " ".join(fpin)
+                    open(f"{name}.txt", "w", encoding="utf-8").write(update)
+                    main()                         
         break
 #------------------- Bank acount information -------------------------------------------------------------------------------
 def account(name):
     blank = open(f"{name}.txt","r", encoding="utf-8").read().split()
+    history = []
     
     while True:
         print(f"You have £{float(blank[11]):.2f} in your account\n"
               f"Your overdraft is £{float(blank[8]):.2f}")
-        option = input("Type W if you want to withdraw money, type D to deposit money or type O to change your overdraft: ").lower() #withdraw or deposit
+        option = input("Type W if you want to withdraw money, type D to deposit money, type O to change your overdraft: ").lower() #withdraw or deposit
 #---------------------------- Withdrawal ---------------------------------------------------------------------------------------    
         if option == "w":
 #------------------------------------------- Checking input has max 2 decimal places -------------------------------------------------------------           
             while True:
-                withdrawal  = float(input("How much money would you like to take?: £"))
-                figure = str(withdrawal).split(".")
-    
-                if len(figure[1]) <= 2:
-                    break
-                else:
-                    print("Your amount can not have more than 2 decimal places e.g £55.55")
+                try:
+                    withdrawal  = float(input("How much money would you like to take?: £"))
+                    figure = str(withdrawal).split(".")
+        
+                    if len(figure[1]) <= 2 or str(figure[1]) == "":# Checking for 2 decimal places
+                        break
+                    else:
+                        print("Your amount can not have more than 2 decimal places e.g £55.55")
+                        time.sleep(2)
+                        os.system("cls")
+                except:
+                    print("You have to enter a vailid input like '234.34'! ")
                     time.sleep(2)
-                    os.system("cls")
-
 #--------------------------------------------- Is there enough money in the account -----------------------------------------------
             if float(withdrawal)> float(blank[11])+float(blank[8]) :
                 form = round(float(blank[11])+float(blank[8]),2)
                 available = f"{form:.2f}"
-                print(f"You onle have £{float(blank[11]):.2f} in your accout and your overdraft is £{float(blank[8]):.2f}, you can not withdraw {withdrawal}!\n"
-                      f"You can withdraw £{float(available):2f} or less")
-                continue
+                print(f"You onle have £{float(blank[11]):.2f} in your accout and your overdraft is £{float(blank[8]):.2f}, you can not withdraw {withdrawal:.2f}!\n"
+                      f"You can withdraw £{available} or less")
 
 #----------------------------------------------- There is enough in your account --------------------------------------------------
             else:
                 amount= float(blank[11])-withdrawal
-                blank[11] = str(amount)
+                history.append(f"-{withdrawal:.2f}")
+                blank[11] = str(f"{amount:.2f}")
+                blank[14] = str(history)
+
                 update = " ".join(blank)
                 open(f"{name}.txt","w", encoding="utf-8").write(update)
                 print(f"You withdrew {float(withdrawal):.2f} and you now have £{float(amount):.2f} in your account")
@@ -110,19 +155,27 @@ def account(name):
           #  os.system("cls")
 #---------------------------------------------- Checking amount has 2 decimal places --------------------------
             while True:
-                deposit  = float(input("How much money would you like to deposit?: £"))
-                figure = str(deposit).split(".")
-    
-                if len(figure[1]) <= 2:
-                    break
-                else:
-                    print("Your amount can not have more than 2 decimal places e.g £55.55")
-                    time.sleep(2)
+                try:
                     os.system("cls")
+                    deposit  = float(input("How much money would you like to deposit?: £"))
+                    figure = str(deposit).split(".")
+        
+                    if len(figure[1]) <= 2:
+                        break
+                    else:
+                        print("Your amount can not have more than 2 decimal places e.g £55.55")
+                        time.sleep(2)
+                        os.system("cls")
+                except:
+                    print("You have to enter a vailid input like '£234.34'! ")
+                    done  = input("Would you like anything else. Y for Yes and N for No: ").upper()
+                    time.sleep(2)
 #--------------------------- Adding amount to account --------------------------------------
             os.system("cls")
-            amount= int(blank[11])+deposit
-            blank[11] = str(amount)
+            amount= float(blank[11])+deposit
+            history.append(f"+{amount:.2f}")
+            blank[11] = str(f"{amount:.2f}")
+            blank[14] = str(history)
             update = " ".join(blank)
             open(f"{name}.txt","w", encoding="utf-8").write(update)
             print(f"You deposited £{float(deposit):.2f} and you now have £{float(amount):.2f} in your account")
@@ -135,7 +188,9 @@ def account(name):
             open(f"{name}.txt","w", encoding="utf-8").write(update)
             os.system("cls")
             print(f"Your overdraft is now {float(blank[8]):.2f}, that's Dope A F. Remember it is not free money. Enjoy!")
-
+        else:
+            print("You need to chose 'W', 'D' or 'O'! ")
+            
 #---------------------------- Ending the system ----------------------------------------------------------------
         done  = input("Would you like anything else. Y for Yes and N for No: ").upper()
         if done == "N":

@@ -1,1 +1,1 @@
-Name = nate Pin = 1234 Overdraft = 500 Total = 4671.879999999999 Transactions = 0
+Name = nate Pin = 1234 Overdraft = 500 Total = 7181.90 Transactions = ['+3770.68', '-45.34', '+7181.90'] '+3740.12']
